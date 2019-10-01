@@ -139,13 +139,13 @@ export default function(translate) {
 
             const list = content.querySelector('#list');
 
-            const host = 'http://dev01.ulg168.com/front/img/icon/usercoin/';
+            const host = 'https://www.fbk168.com/images/game-coin/';
 
             const tasks = [
-                {url: 'user_bg_gold_01', money: gold},
-                {url: 'user_bg_ulg_01', money: etc},
-                {url: 'user_bg_bonus_01', money: bonus},
-                {url: 'user_bg_gift_01', money: gift},
+                {url: 'user_bg_gold', money: gold},
+                {url: 'user_bg_ulg', money: etc},
+                {url: 'user_bg_bonus', money: bonus},
+                {url: 'user_bg_gift', money: gift},
             ].map(({url, money}) => {
                 const image = new Image();
                 image.src = host + url + '.png';
