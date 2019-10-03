@@ -20,7 +20,7 @@ export function Inner(it) {
         changeColor({targets: selects, color});
     });
 
-    return assign(it, {open, close, update});
+    return assign(it, {open, close, update, selects});
 
     function pre(selects, child) {
         const {name} = child;

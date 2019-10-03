@@ -40,6 +40,8 @@ export function SpinButton(it) {
         auto.count = app.user.autoOptions[app.user.auto];
     });
 
+    app.on('UserBetChange', onIdle);
+
     return it;
 
     function onIdle() {
@@ -194,7 +196,6 @@ async function animation(it) {
 
 async function send() {
     app.user.cash -= app.user.currentBet;
-    app.user.lastWin = 0;
 
     const result = await app.service.sendOneRound({
         key: process.env.KEY,
