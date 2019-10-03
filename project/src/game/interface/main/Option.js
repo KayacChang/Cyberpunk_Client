@@ -90,7 +90,7 @@ export function Option(it, main) {
         if (current === 'bet') {
             app.user.betOptions.forEach((option, index) => {
                 if (option > app.user.cash) {
-                    inner.selects[index].enable = false;
+                    inner.selects[index].visible = false;
                 }
             });
         }
