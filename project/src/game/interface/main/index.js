@@ -19,7 +19,9 @@ export function Main(it) {
 
     option.on('OpenExchange', () => it.emit('OpenExchange'));
 
-    SpinButton(it.getChildByName('spin'));
+    const spin = SpinButton(it.getChildByName('spin'));
+
+    spin.on('OpenExchange', () => it.emit('OpenExchange'));
 
     Status(it.getChildByName('status'));
 

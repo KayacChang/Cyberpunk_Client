@@ -63,6 +63,16 @@ export function SpinButton(it) {
     }
 
     async function play() {
+        if (insufficientBalance()) {
+            const {value} =
+                await app.alert
+                    .request({title: app.translate('common:helper.insufficientBalance')});
+
+            if (value) it.emit('OpenExchange');
+
+            return;
+        }
+
         app.sound.play('spin');
 
         if (auto.count > 0) auto.count -= 1;
@@ -165,8 +175,6 @@ async function* State(it) {
     function onNormal() {
         play.visible = true;
         stop.visible = false;
-
-        it.enable = !insufficientBalance();
     }
 
     async function onSpin() {
@@ -200,6 +208,7 @@ async function animation(it) {
 
 async function send() {
     app.user.cash -= app.user.currentBet;
+    app.user.lastWin = 0;
 
     const result = await app.service.sendOneRound({
         key: process.env.KEY,
