@@ -40,14 +40,18 @@ export function SpinButton(it) {
         auto.count = app.user.autoOptions[app.user.auto];
     });
 
-    app.on('UserBetChange', onIdle);
+    app.on('UserBetChange', reset);
 
     return it;
 
-    function onIdle() {
+    function reset() {
         state = State(it);
 
         state.next();
+    }
+
+    function onIdle() {
+        reset();
 
         if (check(scores)) auto.count = 0;
 

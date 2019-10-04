@@ -1,4 +1,4 @@
-import {log, table, divide, waitByFrameTime} from '@kayac/utils';
+import {log, table, divide, waitByFrameTime, err} from '@kayac/utils';
 
 import {FreeGame, NormalGame} from './flow';
 
@@ -22,6 +22,7 @@ export function logic(args) {
         table(result);
 
         const {
+            cash,
             normalGame,
             freeGame,
         } = result;
@@ -41,11 +42,13 @@ export function logic(args) {
                 showRandomWild,
             });
 
-        if (isBigWin(scores)) await showBigWin(scores);
+        if (isBigWin(scores)) {
+            await waitByFrameTime(360);
 
-        clear(scores);
+            await showBigWin(scores);
+        }
 
-        if (scores > 0) await waitByFrameTime(60);
+        await clear(scores);
 
         if (freeGame) {
             app.user.lastWin = 0;
@@ -91,16 +94,25 @@ export function logic(args) {
             }
 
             if (isBigWin(totalScores)) {
-                await waitByFrameTime(600);
+                await waitByFrameTime(360);
 
                 await showBigWin(totalScores);
             }
 
-            clear(totalScores);
+            await clear(totalScores);
 
             counter.hide();
 
             await closeFreeGame();
+        }
+
+        if (app.user.cash !== cash) {
+            err(`
+            Inconsistent data between Client App and Server:
+            Cash
+                Client: ${app.user.cash},
+                Server: ${cash},
+            `);
         }
 
         log('Round Complete...');
@@ -108,8 +120,10 @@ export function logic(args) {
         app.emit('Idle');
     }
 
-    function clear(scores) {
+    async function clear(scores) {
         app.user.lastWin = scores;
         app.user.cash += scores;
+
+        if (scores) await waitByFrameTime(720);
     }
 }
