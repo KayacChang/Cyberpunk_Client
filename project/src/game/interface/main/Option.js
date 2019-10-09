@@ -88,7 +88,7 @@ export function Option(it, main) {
         inner.update(current);
 
         if (current === 'bet') {
-            app.user.betOptions.forEach((option, index) => {
+            app.user.betOptionsHotKey.forEach((option, index) => {
                 if (option > app.user.cash) {
                     inner.selects[index].visible = false;
                 }
