@@ -1,7 +1,7 @@
 import {Page} from '../Page';
 import {Button, Amount} from '../../components';
 
-import {currencyFormat} from '@kayac/utils';
+import {currencyFormat, throttleBy} from '@kayac/utils';
 
 import {FormButton} from './FormButton';
 import {DropDown} from './DropDown';
@@ -77,7 +77,7 @@ export function Exchange(it) {
         cancelBtn.on('pointerup', clear);
         refreshBtn.on('pointerup', refresh);
 
-        confirmBtn.on('click', confirm);
+        confirmBtn.on('click', throttleBy(confirm));
 
         dropdown.on('select', onSelect);
 
