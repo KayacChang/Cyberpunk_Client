@@ -2,6 +2,8 @@ import {log, table, divide, waitByFrameTime, err} from '@kayac/utils';
 
 import {FreeGame, NormalGame} from './flow';
 
+import app from '../../../../system/application';
+
 const BET_TO_BIGWIN = 10;
 
 function isBigWin(scores) {
@@ -12,8 +14,15 @@ export function logic(args) {
     const {
         app,
         slot,
-        grid, payLine, levels, multiple, counter,
-        showFreeGame, closeFreeGame, showRandomWild, showBigWin,
+        grid,
+        payLine,
+        levels,
+        multiple,
+        counter,
+        showFreeGame,
+        closeFreeGame,
+        showRandomWild,
+        showBigWin,
     } = args;
 
     app.on('GameResult', onGameResult);
@@ -22,26 +31,21 @@ export function logic(args) {
         log('onGameResult =============');
         table(result);
 
-        const {
-            cash,
-            normalGame,
-            freeGame,
-        } = result;
+        const {cash, normalGame, freeGame} = result;
 
         if (normalGame.hasLink) {
             log('onNormalGame =============');
             table(normalGame);
         }
 
-        const scores =
-            await NormalGame({
-                result: normalGame,
-                reels: slot.reels,
+        const scores = await NormalGame({
+            result: normalGame,
+            reels: slot.reels,
 
-                grid,
-                payLine,
-                showRandomWild,
-            });
+            grid,
+            payLine,
+            showRandomWild,
+        });
 
         if (isBigWin(scores)) {
             await waitByFrameTime(360);

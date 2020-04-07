@@ -9,7 +9,7 @@ import {User} from './user';
 
 const {defineProperties, assign, freeze} = Object;
 
-export function App() {
+export default (function() {
     const app = new Application({
         resolution: devicePixelRatio || 1,
         antialias: true,
@@ -85,4 +85,4 @@ export function App() {
     global.addEventListener('orientationchange', app.resize);
 
     return freeze(app);
-}
+})();

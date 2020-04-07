@@ -2,7 +2,6 @@ const {seal} = Object;
 
 export function User(app) {
     let id = undefined;
-    let account = '';
 
     let cash = 0;
     let totalWin = 0;
@@ -17,9 +16,6 @@ export function User(app) {
 
     const autoOptions = [0, 25, 100, 500, 1000];
     let auto = 0;
-
-    let hasExchanged = false;
-    let isBetLock = false;
 
     let payTable = [];
     let jackPot = {};
@@ -38,20 +34,6 @@ export function User(app) {
         set id(value) {
             id = value;
         },
-        get account() {
-            return account;
-        },
-        set account(value) {
-            account = value;
-        },
-        get hasExchanged() {
-            return hasExchanged;
-        },
-        set hasExchanged(flag) {
-            hasExchanged = flag;
-        },
-
-        //  Balance...
         get cash() {
             return cash;
         },
@@ -106,13 +88,6 @@ export function User(app) {
 
         get currentBet() {
             return betOptions[bet];
-        },
-
-        get isBetLock() {
-            return isBetLock;
-        },
-        set isBetLock(flag) {
-            isBetLock = flag;
         },
 
         get speedOptions() {

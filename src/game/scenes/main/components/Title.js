@@ -1,6 +1,8 @@
 import {waitByFrameTime} from '@kayac/utils';
 import {pauseAll} from './index';
 
+import app from '../../../../system/application';
+
 export function Title(it) {
     pauseAll(it);
 

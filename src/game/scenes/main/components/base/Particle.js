@@ -1,6 +1,8 @@
 import {Emitter} from 'pixi-particles';
 import {particles} from 'pixi.js';
 
+import app from '../../../../../system/application';
+
 const {ParticleContainer} = particles;
 
 function time(delta) {
@@ -10,11 +12,7 @@ function time(delta) {
 export function Particle(textures, config) {
     const it = new ParticleContainer();
 
-    const emitter = new Emitter(
-        it,
-        textures,
-        config,
-    );
+    const emitter = new Emitter(it, textures, config);
 
     emitter.emit = true;
 

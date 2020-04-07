@@ -1,9 +1,10 @@
 //  Imports
 const {resolve} = require('path');
 const {
-    ProgressPlugin, DefinePlugin, HashedModuleIdsPlugin, optimize,
+    ProgressPlugin,
+    DefinePlugin,
+    HashedModuleIdsPlugin,
 } = require('webpack');
-const {ModuleConcatenationPlugin} = optimize;
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const WorkerPlugin = require('worker-plugin');
@@ -21,40 +22,12 @@ const {
 module.exports = function(env) {
     return {
         //  Entry   ===========================================
-        entry: [
-            resolve(sourceDir, 'main.js'),
-        ],
+        entry: [resolve(sourceDir, 'main.js')],
 
         //  Output  ===========================================
         output: {
             path: productDir,
             filename: 'js/[name].[contenthash].js',
-        },
-
-        //  Optimization    ====================================
-        optimization: {
-            usedExports: true,
-            sideEffects: false,
-            concatenateModules: true,
-
-            splitChunks: {
-                chunks: 'all',
-                minSize: 0,
-                maxInitialRequests: Infinity,
-                cacheGroups: {
-                    vendor: {
-                        test: /[\\/]node_modules[\\/]/,
-                        name(module) {
-                            const packageName =
-                                module.context.match(
-                                    /[\\/]node_modules[\\/](.*?)([\\/]|$)/,
-                                )[1];
-
-                            return `${packageName.replace('@', '')}`;
-                        },
-                    },
-                },
-            },
         },
 
         //  Module =============================================
@@ -149,9 +122,7 @@ module.exports = function(env) {
                 //  Favicon =============================================
                 {
                     test: /\.(ico)$/,
-                    use: [
-                        {loader: 'url-loader', options: {limit: 8192}},
-                    ],
+                    use: [{loader: 'url-loader', options: {limit: 8192}}],
                 },
             ],
         },
@@ -160,9 +131,6 @@ module.exports = function(env) {
         plugins: [
             //  Building Progress
             new ProgressPlugin(),
-
-            //  Module Bundle like Roll up
-            new ModuleConcatenationPlugin(),
 
             //  Cache
             new HashedModuleIdsPlugin(),

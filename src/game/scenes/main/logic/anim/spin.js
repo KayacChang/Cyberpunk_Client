@@ -3,10 +3,9 @@ import {waitByFrameTime, nextFrame} from '@kayac/utils';
 
 import {State} from '../../components';
 
-import {
-    getSpinDuration,
-    getSpinStopInterval,
-} from '../../data';
+import {getSpinDuration, getSpinStopInterval} from '../../data';
+
+import app from '../../../../../system/application';
 
 export async function spin({reels, symbols}) {
     if (!reels.length) reels = [reels];
@@ -24,7 +23,7 @@ export async function spin({reels, symbols}) {
     app.off('QuickStop', immediate);
 
     function immediate() {
-        return skip = true;
+        return (skip = true);
     }
 
     async function start(reels) {
@@ -33,20 +32,19 @@ export async function spin({reels, symbols}) {
         for (const reel of reels) {
             reel.state = State.Spin;
 
-            reel.anim =
-                anime
-                    .timeline({
-                        targets: reel,
-                        easing: 'easeOutQuad',
-                    })
-                    .add({
-                        pos: '-=' + 0.25,
-                        duration: 250,
-                    })
-                    .add({
-                        pos: '+=' + 230,
-                        duration: 15000,
-                    });
+            reel.anim = anime
+                .timeline({
+                    targets: reel,
+                    easing: 'easeOutQuad',
+                })
+                .add({
+                    pos: '-=' + 0.25,
+                    duration: 250,
+                })
+                .add({
+                    pos: '+=' + 230,
+                    duration: 15000,
+                });
 
             await waitByFrameTime(120);
         }
@@ -66,7 +64,7 @@ export async function spin({reels, symbols}) {
 
             const t1 = performance.now();
 
-            duration -= (t1 - t0);
+            duration -= t1 - t0;
         }
     }
 
@@ -80,17 +78,15 @@ export async function spin({reels, symbols}) {
 
             reel.anim.pause();
 
-            const [offSet, ...display] =
-                reel.symbols
-                    .sort(byPos);
+            const [offSet, ...display] = reel.symbols.sort(byPos);
 
             const _symbols = symbols[reel.index];
 
             setDisplay(display, _symbols);
 
-            if (
-                [0, 2].includes(reel.index) && matchScatter(_symbols)
-            ) scatterCount += 1;
+            if ([0, 2].includes(reel.index) && matchScatter(_symbols)) {
+                scatterCount += 1;
+            }
 
             reel.pos -= offSet.pos;
 
@@ -98,13 +94,12 @@ export async function spin({reels, symbols}) {
 
             if (skip && !isMaybeBonus(reel)) duration = 0;
 
-            reel.anim =
-                anime({
-                    targets: reel,
-                    pos: '+=' + symbols.length,
-                    easing: 'easeOutBack',
-                    duration,
-                });
+            reel.anim = anime({
+                targets: reel,
+                pos: '+=' + symbols.length,
+                easing: 'easeOutBack',
+                duration,
+            });
 
             await reel.anim.finished;
 
@@ -136,7 +131,7 @@ function byPos(a, b) {
 }
 
 function setDisplay(display, result) {
-    result.forEach((icon, index) => display[index].icon = icon);
+    result.forEach((icon, index) => (display[index].icon = icon));
 }
 
 function matchScatter(symbols) {

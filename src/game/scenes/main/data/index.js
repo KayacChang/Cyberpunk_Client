@@ -7,11 +7,13 @@ import ENERGY_URL from '../assets/images/energy.png';
 import NUMBER from '../assets/fonts/number.xml';
 import '../assets/fonts/number.png';
 
+import app from '../../../../system/application';
+
 export function reserve() {
     return [
-        ...(sprites),
-        ...(symbols),
-        ...(sounds),
+        ...sprites,
+        ...symbols,
+        ...sounds,
 
         {name: 'energy', url: ENERGY_URL},
 
@@ -19,15 +21,7 @@ export function reserve() {
     ];
 }
 
-
 const getSpinDuration = () => [1800, 1200, 600][app.user.speed];
 const getSpinStopInterval = () => [360, 240, 120][app.user.speed];
 
-
-export {
-    symbolConfig,
-
-    getSpinDuration,
-    getSpinStopInterval,
-};
-
+export {symbolConfig, getSpinDuration, getSpinStopInterval};

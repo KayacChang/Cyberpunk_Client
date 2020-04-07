@@ -1,6 +1,15 @@
 import {addPackage} from 'pixi_fairygui';
 
-import {Slot, PayLines, Title, Collect, FreeGame, Grid, BigWin, Multiple} from './components';
+import {
+    Slot,
+    PayLines,
+    Title,
+    Collect,
+    FreeGame,
+    Grid,
+    BigWin,
+    Multiple,
+} from './components';
 
 import {symbolConfig} from './data';
 import {TextureManager} from './components/slot/util';
@@ -39,7 +48,9 @@ export function create(app, reel) {
 
     const counter = Counter(scene.getChildByName('counter'));
 
-    const background = scene.children.filter(({name}) => name.includes('bottom'));
+    const background = scene.children.filter(({name}) =>
+        name.includes('bottom'),
+    );
 
     const frames = scene.children.filter(({name}) => name.includes('frame'));
 
@@ -67,7 +78,9 @@ export function create(app, reel) {
     app.once('Idle', firstIdle);
 
     app.on('ShowResult', ({results}) => {
-        const {symbols} = results.slice().sort((a, b) => b.scores - a.scores)[0];
+        const {symbols} = results
+            .slice()
+            .sort((a, b) => b.scores - a.scores)[0];
 
         const icon = findCommon(symbols);
 
@@ -128,7 +141,14 @@ export function create(app, reel) {
                 '#17fff7',
             ][id];
 
-            const targets = [...frames, ...halo.children, ...counter.children, payLine, collect, freeGame];
+            const targets = [
+                ...frames,
+                ...halo.children,
+                ...counter.children,
+                payLine,
+                collect,
+                freeGame,
+            ];
 
             changeColor({targets, color: to});
 
@@ -139,7 +159,10 @@ export function create(app, reel) {
             const target = background[id];
             const others = background.filter((it, index) => index !== id);
 
-            Promise.all([fadeIn({targets: target}).finished, fadeOut({targets: others}).finished]);
+            Promise.all([
+                fadeIn({targets: target}).finished,
+                fadeOut({targets: others}).finished,
+            ]);
         }
     }
 

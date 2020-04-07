@@ -3,11 +3,12 @@ import {pauseAll} from './index';
 
 const {assign, defineProperties} = Object;
 
+import app from '../../../../system/application';
+
 export function FreeGame(it) {
-    const frames =
-        it.children
-            .filter(({name}) => name.includes('outer'))
-            .flatMap(({children}) => children);
+    const frames = it.children
+        .filter(({name}) => name.includes('outer'))
+        .flatMap(({children}) => children);
 
     pauseAll(it);
 
@@ -23,7 +24,7 @@ export function FreeGame(it) {
             set(value) {
                 tint = value;
 
-                frames.forEach((it) => it.tint = value);
+                frames.forEach((it) => (it.tint = value));
             },
         },
     });

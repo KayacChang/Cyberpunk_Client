@@ -3,6 +3,8 @@ import {waitByFrameTime} from '@kayac/utils';
 import anime from 'animejs';
 import {fadeOut} from '../../../effect';
 
+import app from '../../../../system/application';
+
 export function BigWin(it) {
     const scores = new BitmapText('', {font: 'number'});
 

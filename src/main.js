@@ -1,6 +1,6 @@
 import {select, fetchJSON} from '@kayac/utils';
 
-import {App} from './system/application';
+import app from './system/application';
 import {Service} from './service';
 import i18n from './system/plugin/i18n';
 import Swal from './system/plugin/swal';
@@ -24,8 +24,6 @@ async function main() {
             token: res['token'],
             I18N_URL: res['i18nURL'],
         };
-
-        const app = App();
 
         app.translate = await i18n.init(env.I18N_URL);
         app.alert = Swal(app.translate);
@@ -56,7 +54,6 @@ async function main() {
         ]);
 
         app.user.id = initData['player']['id'];
-        app.user.account = initData['player']['gameaccount'];
         app.user.cash = initData['player']['money'];
 
         app.user.betOptions = initData['betrate']['betrate'];

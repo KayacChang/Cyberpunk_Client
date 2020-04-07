@@ -1,7 +1,5 @@
 import {throttle, abs, select, isMobile} from '@kayac/utils';
 
-// import {isMobile} from 'pixi.js/lib/core/utils';
-
 import screenfull from 'screenfull';
 
 function getClientSize(target) {
@@ -50,7 +48,10 @@ export function enableFullScreenMask(app) {
     if (!isMobile.apple.device) {
         select('#screen-scroll').classList.add('hidden');
 
-        const func = (el, className) => (isLandScape() ? el.classList.add(className) : el.classList.remove(className));
+        const func = (el, className) =>
+            isLandScape()
+                ? el.classList.add(className)
+                : el.classList.remove(className);
 
         func(icon, 'hidden');
 
@@ -58,7 +59,9 @@ export function enableFullScreenMask(app) {
 
         window.addEventListener('orientationchange', () => {
             const func = (el, className) =>
-                !isLandScape() ? el.classList.add(className) : el.classList.remove(className);
+                !isLandScape()
+                    ? el.classList.add(className)
+                    : el.classList.remove(className);
 
             func(icon, 'hidden');
 
@@ -85,7 +88,9 @@ export function enableFullScreenMask(app) {
             const isMinimal = forApple();
 
             const func = (el, className) =>
-                isMinimal && isLandScape() ? el.classList.add(className) : el.classList.remove(className);
+                isMinimal && isLandScape()
+                    ? el.classList.add(className)
+                    : el.classList.remove(className);
 
             func(icon, 'hidden');
             func(mask, 'hidden');
@@ -95,7 +100,10 @@ export function enableFullScreenMask(app) {
     }
 
     function forApple() {
-        const maxHeight = Math.max(document.documentElement.clientHeight, outerHeight);
+        const maxHeight = Math.max(
+            document.documentElement.clientHeight,
+            outerHeight,
+        );
         return abs(maxHeight - innerHeight) <= 50;
     }
 }

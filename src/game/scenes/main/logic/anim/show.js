@@ -1,5 +1,7 @@
 import {waitByFrameTime} from '@kayac/utils';
 
+import app from '../../../../../system/application';
+
 export async function show({result, reels, grid, payLine}) {
     app.emit('ShowResult', result);
 
@@ -52,19 +54,17 @@ export async function show({result, reels, grid, payLine}) {
 
         let skip = false;
 
-        (
-            async function loop() {
-                close();
+        (async function loop() {
+            close();
 
-                showOne(results.next().value);
+            showOne(results.next().value);
 
-                await waitByFrameTime(1750);
+            await waitByFrameTime(1750);
 
-                if (!skip) loop();
-            }
-        )();
+            if (!skip) loop();
+        })();
 
-        app.once('SpinStart', () => skip = true);
+        app.once('SpinStart', () => (skip = true));
     }
 
     function showOne(result) {
@@ -76,9 +76,7 @@ export async function show({result, reels, grid, payLine}) {
 
             const id = symbols[row];
 
-            const effect =
-                grid[row][col]['effect']
-                    .getChildByName(String(id));
+            const effect = grid[row][col]['effect'].getChildByName(String(id));
 
             effect.alpha = 1;
 
@@ -102,7 +100,7 @@ export async function show({result, reels, grid, payLine}) {
 
         lines.forEach((close) => close());
 
-        hideSymbols.forEach((symbol) => symbol.visible = true);
+        hideSymbols.forEach((symbol) => (symbol.visible = true));
 
         effects.forEach((effect) => {
             effect.transition['anim'].pause();

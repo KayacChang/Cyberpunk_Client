@@ -3,10 +3,11 @@ import {clone} from '@kayac/utils';
 export function Service({serverURL, token}) {
     const accountBalance = {};
 
+    let gametypeid = undefined;
+
     return {
         init,
         sendOneRound,
-        sendOneTest,
 
         get currencies() {
             return currencies;
@@ -27,9 +28,11 @@ export function Service({serverURL, token}) {
 
         const {data, error} = await res.json();
 
-        if (!res.ok) {
+        if (error.ErrorCode) {
             throw new Error(error.Msg);
         }
+
+        gametypeid = data['player']['gametypeid'];
 
         return data;
     }
@@ -42,10 +45,17 @@ export function Service({serverURL, token}) {
             }),
             body: JSON.stringify({
                 bet,
+                gametypeid,
             }),
         });
 
-        return handle(res);
+        const {data, error} = await res.json();
+
+        if (error.ErrorCode) {
+            throw new Error(error.Msg);
+        }
+
+        return handle(data);
     }
 
     function handle(data) {
@@ -75,7 +85,9 @@ export function Service({serverURL, token}) {
 
         const hasLink = results.length > 0;
 
-        const scores = results.map(({scores}) => scores).reduce((a, b) => a + b, 0);
+        const scores = results
+            .map(({scores}) => scores)
+            .reduce((a, b) => a + b, 0);
 
         const randomWild = RandomWild(data['randwild']);
 
