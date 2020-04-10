@@ -5,7 +5,15 @@ import {isDevMode} from '@kayac/utils';
 
 const detectorOptions = {
     // order and from where user language should be detected
-    order: ['querystring', 'cookie', 'localStorage', 'navigator', 'htmlTag', 'path', 'subdomain'],
+    order: [
+        'querystring',
+        'cookie',
+        'localStorage',
+        'navigator',
+        'htmlTag',
+        'path',
+        'subdomain',
+    ],
 
     // keys or params to lookup language from
     lookupQuerystring: 'lng',
@@ -24,15 +32,6 @@ const detectorOptions = {
     htmlTag: document.documentElement,
 };
 
-const backendOptions = {
-    // init option for fetch, for example
-    requestOptions: {
-        mode: 'cors',
-        credentials: 'same-origin',
-        cache: 'default',
-    },
-};
-
 function init(path) {
     return i18next
         .use(LanguageDetector)
@@ -43,9 +42,14 @@ function init(path) {
             fallbackLng: 'zh-TW',
 
             detection: detectorOptions,
-            backend: backendOptions,
-
-            loadPath: path,
+            backend: {
+                requestOptions: {
+                    mode: 'cors',
+                    credentials: 'same-origin',
+                    cache: 'default',
+                },
+                loadPath: `${path}/{{lng}}/{{ns}}.json`,
+            },
 
             ns: ['cyberpunk', 'common'],
             defaultNS: 'cyberpunk',

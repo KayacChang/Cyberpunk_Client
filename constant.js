@@ -19,6 +19,7 @@ const productDir = resolve(rootPath, 'dist');
 const publicPath = '';
 
 module.exports = {
+    rootPath,
     sourceDir,
     baseDir,
     toolDir,

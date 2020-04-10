@@ -1,4 +1,4 @@
-import {select, fetchJSON} from '@kayac/utils';
+import {select} from '@kayac/utils';
 
 import app from './system/application';
 import {Service} from './service';
@@ -6,8 +6,6 @@ import i18n from './system/plugin/i18n';
 import Swal from './system/plugin/swal';
 
 import {enableFullScreenMask} from './system/modules/screen';
-
-import ENV_URL from './env.json';
 
 import * as PIXI from 'pixi.js';
 global.PIXI = PIXI;
@@ -17,17 +15,9 @@ async function main() {
     try {
         document.title = 'For Every Gamer';
 
-        const res = await fetchJSON(ENV_URL);
-
-        const env = {
-            serverURL: res['server'],
-            token: res['token'],
-            I18N_URL: res['i18nURL'],
-        };
-
-        app.translate = await i18n.init(env.I18N_URL);
+        app.translate = await i18n.init(process.env.I18N_URL);
         app.alert = Swal(app.translate);
-        app.service = new Service(env);
+        app.service = new Service(process.env.SERVER_URL);
 
         // Import Load Scene
         const LoadScene = await import('./game/scenes/load/scene');
