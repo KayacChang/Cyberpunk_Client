@@ -1,9 +1,11 @@
 import {clone} from '@kayac/utils';
 
-export function Service({serverURL, token}) {
+export function Service(url) {
     const accountBalance = {};
 
     let gametypeid = undefined;
+
+    const token = getToken();
 
     return {
         init,
@@ -18,8 +20,30 @@ export function Service({serverURL, token}) {
         },
     };
 
+    function getToken() {
+        const token =
+            new URL(location).searchParams.get('token') ||
+            localStorage.getItem('token');
+
+        if (!token) {
+            throw new Error(`User Access Tokens is empty`);
+        }
+
+        history.pushState(
+            undefined,
+            undefined,
+            location.origin + location.pathname,
+        );
+
+        global.addEventListener('popstate', () => history.back());
+
+        localStorage.setItem('token', token);
+
+        return token;
+    }
+
     async function init() {
-        const res = await fetch(serverURL + '/game/init', {
+        const res = await fetch(url + '/game/init', {
             method: 'POST',
             headers: new Headers({
                 Authorization: 'Bearer ' + token,
@@ -38,7 +62,7 @@ export function Service({serverURL, token}) {
     }
 
     async function sendOneRound({bet}) {
-        const res = await fetch(serverURL + '/game/result', {
+        const res = await fetch(url + '/game/result', {
             method: 'POST',
             headers: new Headers({
                 Authorization: 'Bearer ' + token,

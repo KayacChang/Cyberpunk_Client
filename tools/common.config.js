@@ -9,8 +9,11 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const WorkerPlugin = require('worker-plugin');
 
+const Dotenv = require('dotenv-webpack');
+
 //  Path
 const {
+    rootPath,
     sourceDir,
     productDir,
     baseDir,
@@ -154,6 +157,10 @@ module.exports = function(env) {
             }),
 
             new WorkerPlugin(),
+
+            new Dotenv({
+                path: resolve(rootPath, '.env'),
+            }),
         ],
         //  END ============================================
     };
