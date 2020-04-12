@@ -30,11 +30,9 @@ export function Option(app, it, main) {
 
     const audio = Audio();
 
-    const exchangeButton = Button(it.getChildByName('exchange'));
-
-    exchangeButton.on('pointerup', openExchange);
-
-    const frames = it.children.filter(({name}) => name.includes('frame') || name.includes('outline'));
+    const frames = it.children.filter(
+        ({name}) => name.includes('frame') || name.includes('outline'),
+    );
 
     app.on('ChangeColor', (color) => {
         changeColor({targets: frames, color});
@@ -81,7 +79,11 @@ export function Option(app, it, main) {
     }
 
     async function openInner() {
-        scaleUp({targets: state[current], easing: 'easeOutCirc', duration: 260});
+        scaleUp({
+            targets: state[current],
+            easing: 'easeOutCirc',
+            duration: 260,
+        });
 
         inner.update(current);
 
@@ -97,7 +99,11 @@ export function Option(app, it, main) {
     }
 
     async function closeInner() {
-        scaleDown({targets: state[current], easing: 'easeInCirc', duration: 260});
+        scaleDown({
+            targets: state[current],
+            easing: 'easeInCirc',
+            duration: 260,
+        });
 
         await inner.close();
     }
@@ -166,9 +172,5 @@ export function Option(app, it, main) {
 
             update();
         }
-    }
-
-    function openExchange() {
-        it.emit('OpenExchange');
     }
 }
