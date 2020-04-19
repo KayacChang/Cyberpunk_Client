@@ -8,7 +8,9 @@ import Swal from './system/plugin/swal';
 import {enableFullScreenMask} from './system/modules/screen';
 
 import * as PIXI from 'pixi.js';
-global.PIXI = PIXI;
+import {install} from '@pixi/unsafe-eval';
+
+install(PIXI);
 
 async function main() {
     //  Init App
