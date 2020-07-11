@@ -7,13 +7,16 @@ export function Nav(app, it) {
     const background = Background(it.getChildByName('background'));
 
     const buttons = it.children
-        .filter(({name}) => ['back', 'setting', 'information'].includes(name))
+        .filter(({name}) =>
+            ['back', 'setting', 'information', 'home'].includes(name),
+        )
         .map(NavButton);
 
-    const [backButton, settingButton, infoButton] = buttons;
+    const [backButton, settingButton, infoButton, homeButton] = buttons;
 
     settingButton.on('pointerup', () => it.emit('open', 'setting'));
     infoButton.on('pointerup', () => it.emit('open', 'information'));
+    homeButton.on('pointerup', () => app.alert.leave(localStorage['lobby']));
 
     async function open() {
         app.sound.play('spin');
