@@ -86,12 +86,16 @@ export function Resource(app) {
 
         resource.data = new Howl({
             ...task,
+            html5: true,
             onload,
             onloaderror,
         });
 
         function check(resource) {
-            return !resource || resource.loadType !== LoaderResource.LOAD_TYPE.AUDIO;
+            return (
+                !resource ||
+                resource.loadType !== LoaderResource.LOAD_TYPE.AUDIO
+            );
         }
 
         function onload() {

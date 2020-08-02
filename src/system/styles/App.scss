@@ -5,10 +5,13 @@
     margin: auto;
 
     canvas {
-        width: 100vw;
-
         max-height: 100vh;
         max-width: 100vw;
+
+        @media (orientation: portrait) {
+            height: auto;
+            width: 100vw;
+        }
     }
 
     #mask {
